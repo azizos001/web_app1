@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: shopfront
-        image: shopfront:latest
+        image: stoufaa/shopfront:latest
         ports:
         - containerPort: 3000
         env:
