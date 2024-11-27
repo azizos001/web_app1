@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo:4.4
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  product-catalogue:
+    build: ./ProductCatalogue
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/
+
+  stock-manager:
+    build: ./StockManager
+    ports:
+      - "5002:5002"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/
+
+  shopfront:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - product-catalogue
+      - stock-manager
+
+volumes:
+  mongodb_data:
